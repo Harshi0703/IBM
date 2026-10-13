@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id                  String   @id @default(cuid())
+  title               String
+  language            String   @default("python")
+  code                String
+  learningMode        Boolean  @default(true)
+  lastExplanationJson String?
+  lastDebugJson       String?
+  lastExecutionJson   String?
+  hintsUsed           Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  submissions CodeSubmission[]
+  messages    Message[]
+}
+
+model CodeSubmission {
+  id           String    @id @default(cuid())
+  session_id   String
+  code_content String
+  has_error    Boolean   @default(false)
+  error_trace  String?
+  created_at   DateTime  @default(now())
+
+  project  Project?  @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  messages Message[]
+}
+
+model Message {
+  id                 String          @id @default(cuid())
+  session_id         String
+  code_submission_id String?
+  role               String
+  content            String
+  created_at         DateTime        @default(now())
+
+  project        Project?        @relation(fields: [session_id], references: [id], onDelete: Cascade)
+  codeSubmission CodeSubmission? @relation(fields: [code_submission_id], references: [id], onDelete: SetNull)
+}

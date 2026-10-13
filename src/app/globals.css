@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #f8fafc;
+    --bg-surface: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-subtle: #e2e8f0;
+  }
+
+  .dark {
+    --bg-primary: #090d16;
+    --bg-surface: #111827;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-subtle: #1e293b;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-[#0b0f19] dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white;
+  }
+}
+
+/* Custom subtle scrollbars for code & panels */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
